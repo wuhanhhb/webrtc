@@ -85,7 +85,7 @@ public class CallActivity extends Activity implements WebRtcService.RtcListener 
         } else {
             Log.d(WebRtcService.TAG, "Success to create client! :" + WebRtcService.other);
             try {
-                WebRtcService.getInstance().readyToCall();
+//                WebRtcService.getInstance().readyToCall();
                 if (flag) {
                     WebRtcService.getInstance().startCall();
                 }

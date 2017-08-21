@@ -135,6 +135,12 @@ public class WebRtcService extends Service {
         WebRtcService.getInstance().emit(P2PSocket.SEND_CALL, null);
     }
 
+    public static void addIceService(PeerConnection.IceServer iceServer) {
+        if (getInstance() != null) {
+            getInstance().iceServers.add(iceServer);
+        }
+    }
+
     boolean createClient(RtcListener listener, Activity app, EglBase.Context gGLcontext) {
         if (client == null) {
             Point displaySize = new Point();
@@ -150,15 +156,15 @@ public class WebRtcService extends Service {
         }
     }
 
-    void readyToCall() throws JSONException {
-        //client.start();
-        JSONObject message = new JSONObject();
-        message.put("name", "android_test");
-        emit("readyToStream", message);
-//        if (mListener != null) {
-//            mListener.onLocalStream(client.getLocalMS());
-//        }
-    }
+//    void readyToCall() throws JSONException {
+//        //client.start();
+//        JSONObject message = new JSONObject();
+//        message.put("name", "android_test");
+//        emit("readyToStream", message);
+////        if (mListener != null) {
+////            mListener.onLocalStream(client.getLocalMS());
+////        }
+//    }
 
     void startCall() throws JSONException {
         sendMessage(P2PSocket.INIT, null);
