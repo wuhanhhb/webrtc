@@ -132,7 +132,7 @@ public class CallActivity extends Activity implements WebRtcService.RtcListener 
         super.onDestroy();
         audioManager.close();
         //how to restart service again!!!
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override

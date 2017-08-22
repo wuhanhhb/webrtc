@@ -75,13 +75,8 @@ public class IncomingCallActivity extends AppCompatActivity {
      * @param view
      */
     public void rejectCall(View view) {
-        vib.cancel();
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
-        }
         JSONObject message = new JSONObject();
         WebRtcService.getInstance().emit(P2PSocket.EJECT_CALL, message);
-
         finish();
 //        Intent intent = new Intent(IncomingCallActivity.this, MainActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -90,12 +85,17 @@ public class IncomingCallActivity extends AppCompatActivity {
     }
 
     public void onAcceptCall() {
+        finish();
+        startCallWithFlag(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         vib.cancel();
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
         }
-        finish();
-        startCallWithFlag(true);
     }
 
     private void startCallWithFlag(boolean flag) {

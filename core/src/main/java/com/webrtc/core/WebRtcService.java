@@ -181,16 +181,16 @@ public class WebRtcService extends Service {
         emit(P2PSocket.CANCEL_CALL, null);
         //TODO
         //maybe crash
-//            for (Peer peer : peers.values()) {
-//                peer.pc.dispose();
-//            }
-//
-//            Log.e(TAG, "stopCall 2");
-//            if (client != null) {
-//                client.close();
-//            }
-//            client = null;
-//            mListener = null;
+        for (Peer peer : peers.values()) {
+            peer.pc.dispose();
+        }
+
+        Log.e(TAG, "stopCall 2");
+        if (client != null) {
+            client.close();
+        }
+        client = null;
+        mListener = null;
     }
 
     void resumeCall() {
@@ -285,7 +285,10 @@ public class WebRtcService extends Service {
                 if (mListener != null) {
                     mListener.onDisConnected();
                 } else {
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    if (IncomingCallActivity.getInstance() != null) {
+                        IncomingCallActivity.getInstance().finish();
+                    }
+                    //android.os.Process.killProcess(android.os.Process.myPid());
                 }
             }
         };
@@ -296,7 +299,7 @@ public class WebRtcService extends Service {
                 if (mListener != null) {
                     mListener.onDisConnected();
                 } else {
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    //android.os.Process.killProcess(android.os.Process.myPid());
                 }
             }
         };

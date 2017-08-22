@@ -41,11 +41,16 @@ public abstract class SimpleP2PSocket implements P2PSocket {
 
     //recv
     public void call(String type, JSONObject payload) {
-        P2PSocket.Listener listener = maps.get(type);
-        if (listener != null) {
-            listener.call(payload);
+        if (P2PSocket.SEND_CALL.equals(type)) {
+            //接收到呼叫请求后，转为RECV_CALL
+            call(P2PSocket.RECV_CALL, null);
         } else {
-            Log.e(TAG, "failed to find listener for type : " + type);
+            P2PSocket.Listener listener = maps.get(type);
+            if (listener != null) {
+                listener.call(payload);
+            } else {
+                Log.e(TAG, "failed to find listener for type : " + type);
+            }
         }
     }
 }
