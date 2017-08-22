@@ -119,20 +119,27 @@ public class WebRtcService extends Service {
      * @param other   who you want to call.
      * @param ring
      */
-    public static void startClient(Context context, P2PSocket socket, String self, String other, int ring) {
-        if (WebRtcService.getInstance() == null || context == null || socket == null || TextUtils.isEmpty(self) || TextUtils.isEmpty(other)) {
+    public static void startClient(Context context, String self, String other, int ring) {
+        if (WebRtcService.getInstance() == null || context == null || WebRtcService.getInstance().socket == null || TextUtils.isEmpty(self) || TextUtils.isEmpty(other)) {
             throw new RuntimeException("NPE Exception here.");
         }
         WebRtcService.self = self;
         WebRtcService.other = other;
         IncomingCallActivity.INRING = ring;
 
-        WebRtcService.getInstance().socket = socket;
-        WebRtcService.getInstance().config();
-
         IncomingCallActivity.startIncomingCall(context, false);
 
         WebRtcService.getInstance().emit(P2PSocket.SEND_CALL, null);
+    }
+
+    /**
+     * Must call first
+     *
+     * @param socket
+     */
+    public static void configNetWork(P2PSocket socket) {
+        WebRtcService.getInstance().socket = socket;
+        WebRtcService.getInstance().config();
     }
 
     public static void addIceService(PeerConnection.IceServer iceServer) {
