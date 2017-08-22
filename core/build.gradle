@@ -46,7 +46,7 @@ publish {
     userOrg = 'sxhebing'
     groupId = 'com.follow'
     artifactId = 'webrtc-android'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.2'
     desc = 'An Simple webrtc lib for android,You can learn more from git '
     website = 'https://github.com/wuhanhhb/webrtc'
     dryRun = false
