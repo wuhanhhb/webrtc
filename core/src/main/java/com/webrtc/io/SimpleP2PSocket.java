@@ -25,7 +25,11 @@ public abstract class SimpleP2PSocket implements P2PSocket {
     }
 
     //recv
-    public void call(String type, byte[] data) {
+    public void callBytes(String type, byte[] data) {
+        if (data == null) {
+            call(type, null);
+            return;
+        }
         final String s = new String(data);
         try {
             JSONObject payload = new JSONObject(s);

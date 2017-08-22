@@ -11,7 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONException;
+import com.webrtc.io.P2PSocket;
+
 import org.json.JSONObject;
 
 public class IncomingCallActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class IncomingCallActivity extends AppCompatActivity {
         finish();
         startCallWithFlag(false);
         JSONObject message = new JSONObject();
-        WebRtcService.getInstance().emit("acceptcall", message);
+        WebRtcService.getInstance().emit(P2PSocket.ACCEPT_CALL, message);
     }
 
     /**
@@ -79,7 +80,7 @@ public class IncomingCallActivity extends AppCompatActivity {
             mMediaPlayer.stop();
         }
         JSONObject message = new JSONObject();
-        WebRtcService.getInstance().emit("ejectcall", message);
+        WebRtcService.getInstance().emit(P2PSocket.EJECT_CALL, message);
 
         finish();
 //        Intent intent = new Intent(IncomingCallActivity.this, MainActivity.class);
