@@ -38,8 +38,8 @@ public class WebRtcService extends Service {
     private String preferredVideoCodec = VIDEO_CODEC_VP8;
 
     //every import!
-    public static String self;
-    public static String other;
+    protected static String self;
+    protected static String other;
 
     private static WebRtcService instance;
 
@@ -53,7 +53,7 @@ public class WebRtcService extends Service {
     private P2PSocket socket;
 //    private final IBinder mBinder = new LocalBinder();
 
-    public static WebRtcService getInstance() {
+    protected static WebRtcService getInstance() {
         if (instance == null) throw new NullPointerException("WebRtcService is not bind.");
         return instance;
     }
