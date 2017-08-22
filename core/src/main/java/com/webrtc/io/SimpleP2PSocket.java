@@ -36,6 +36,7 @@ public abstract class SimpleP2PSocket implements P2PSocket {
             call(type, payload);
         } catch (JSONException e) {
             e.printStackTrace();
+            call(type, null);
         }
     }
 
