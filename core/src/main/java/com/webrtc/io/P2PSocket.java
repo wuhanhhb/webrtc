@@ -9,11 +9,11 @@ public interface P2PSocket {
     String ANSWER = "answer";
     String CANDIDATE = "candidate";
 
-    String SEND_CALL = "send";
-    String RECV_CALL = "receive";
-    String EJECT_CALL = "eject";
-    String ACCEPT_CALL = "accept";
-    String CANCEL_CALL = "cancel";
+    public String SEND_CALL = "send";
+    public String RECV_CALL = "receive";
+    public String EJECT_CALL = "eject";
+    public String ACCEPT_CALL = "accept";
+    public String CANCEL_CALL = "cancel";
 
     String MESSAGE_CALL = "message";
     /**
