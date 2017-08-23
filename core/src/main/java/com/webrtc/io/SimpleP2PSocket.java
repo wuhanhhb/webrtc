@@ -49,7 +49,7 @@ public abstract class SimpleP2PSocket implements P2PSocket {
             //接收到呼叫请求后，转为RECV_CALL
             call(P2PSocket.RECV_CALL, null);
         } else {
-            P2PSocket.Listener listener = maps.get(type);
+            Listener listener = maps.get(type);
             if (listener != null) {
                 listener.call(payload);
             } else {
