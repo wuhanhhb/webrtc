@@ -124,13 +124,9 @@ public class CallActivity extends Activity implements WebRtcService.RtcListener 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        super.onDestroy();
         audioManager.close();
+        finish();
+        super.onDestroy();
         //how to restart service again!!!
 //        android.os.Process.killProcess(android.os.Process.myPid());
     }

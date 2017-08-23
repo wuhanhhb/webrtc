@@ -2,6 +2,8 @@ package com.webrtc.io;
 
 import android.util.Log;
 
+import com.webrtc.core.WebRtcService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +14,7 @@ import java.util.HashMap;
  */
 
 public abstract class SimpleP2PSocket implements P2PSocket {
-    private static final String TAG = "SimpleP2PSocket";
+    private static final String TAG = WebRtcService.TAG;
     final private HashMap<String, Listener> maps = new HashMap<>();
 
     //send
@@ -42,6 +44,7 @@ public abstract class SimpleP2PSocket implements P2PSocket {
 
     //recv
     public void call(String type, JSONObject payload) {
+        Log.e(TAG, "try to find listener for type : " + type);
         if (P2PSocket.SEND_CALL.equals(type)) {
             //接收到呼叫请求后，转为RECV_CALL
             call(P2PSocket.RECV_CALL, null);

@@ -32,8 +32,11 @@ import static com.webrtc.core.WebRtcClient.AUDIO_CODEC_OPUS;
 import static com.webrtc.core.WebRtcClient.VIDEO_CODEC_VP8;
 import static com.webrtc.core.WebRtcClient.VIDEO_FPS;
 
+/*
+http://www.cnblogs.com/fangkm/p/4364553.html
+ */
 public class WebRtcService extends Service {
-    protected final static String TAG = WebRtcService.class.getCanonicalName();
+    public final static String TAG = WebRtcService.class.getCanonicalName();
     private String preferredAudioCodec = AUDIO_CODEC_OPUS;
     private String preferredVideoCodec = VIDEO_CODEC_VP8;
 
@@ -58,13 +61,17 @@ public class WebRtcService extends Service {
         return instance;
     }
 
+    public static boolean isRunning() {
+        return instance != null;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
 
         pcConstraints.optional.add(new MediaConstraints.KeyValuePair("DtlsSrtpKeyAgreement", "true"));
-//        pcConstraints.optional.add(new MediaConstraints.KeyValuePair("RtpDataChannels", "true"));
+        pcConstraints.optional.add(new MediaConstraints.KeyValuePair("RtpDataChannels", "true"));
 
         pcConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         pcConstraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
@@ -178,19 +185,21 @@ public class WebRtcService extends Service {
     }
 
     void stopCall() throws JSONException {
-        emit(P2PSocket.CANCEL_CALL, null);
-        //TODO
-        //maybe crash
-        for (Peer peer : peers.values()) {
-            peer.pc.dispose();
-        }
+        if (mListener != null) {
+            emit(P2PSocket.CANCEL_CALL, null);
+            //TODO
+            //maybe crash
+            for (Peer peer : peers.values()) {
+                peer.pc.dispose();
+            }
 
-        Log.e(TAG, "stopCall 2");
-        if (client != null) {
-            client.close();
+            Log.e(TAG, "stopCall 2");
+            if (client != null) {
+                client.close();
+            }
+            client = null;
+            mListener = null;
         }
-        client = null;
-        mListener = null;
     }
 
     void resumeCall() {
@@ -339,7 +348,7 @@ public class WebRtcService extends Service {
                 localSdp = preferCodec(localSdp, preferredAudioCodec, true);
                 localSdp = preferCodec(localSdp, preferredVideoCodec, false);
                 //localSdp = setStartBitrate(AUDIO_CODEC_OPUS, false, localSdp, 1);
-
+//                localSdp = localSdp.replace("127.0.0.1", getHostIP());
                 JSONObject payload = new JSONObject();
                 payload.put("type", sdp.type.canonicalForm());
                 payload.put("sdp", localSdp);
@@ -354,18 +363,22 @@ public class WebRtcService extends Service {
 
         @Override
         public void onSetSuccess() {
+            Log.d(TAG, "onSetSuccess");
         }
 
         @Override
         public void onCreateFailure(String s) {
+            Log.d(TAG, "onCreateFailure:" + s);
         }
 
         @Override
         public void onSetFailure(String s) {
+            Log.d(TAG, "onSetFailure:" + s);
         }
 
         @Override
         public void onSignalingChange(PeerConnection.SignalingState signalingState) {
+            Log.d(TAG, "onSignalingChange:" + signalingState);
         }
 
         @Override
@@ -374,19 +387,23 @@ public class WebRtcService extends Service {
                 //removePeer(id);
                 //mListener.onStatusChanged("DISCONNECTED");
             }
+            Log.d(TAG, "onIceConnectionChange:" + iceConnectionState);
         }
 
         @Override
         public void onIceConnectionReceivingChange(boolean b) {
+            Log.d(TAG, "onIceConnectionReceivingChange:" + b);
 
         }
 
         @Override
         public void onIceGatheringChange(PeerConnection.IceGatheringState iceGatheringState) {
+            Log.d(TAG, "onIceGatheringChange:" + iceGatheringState);
         }
 
         @Override
         public void onIceCandidate(final IceCandidate candidate) {
+            Log.d(TAG, "onIceCandidate:" + candidate);
             try {
                 JSONObject payload = new JSONObject();
                 payload.put("label", candidate.sdpMLineIndex);
@@ -400,7 +417,7 @@ public class WebRtcService extends Service {
 
         @Override
         public void onIceCandidatesRemoved(IceCandidate[] iceCandidates) {
-
+            Log.d(TAG, "onIceCandidatesRemoved:" + iceCandidates);
         }
 
         @Override
@@ -418,11 +435,12 @@ public class WebRtcService extends Service {
 
         @Override
         public void onDataChannel(DataChannel dataChannel) {
+            Log.d(TAG, "onDataChannel:" + dataChannel);
         }
 
         @Override
         public void onRenegotiationNeeded() {
-
+            Log.d(TAG, "onRenegotiationNeeded");
         }
 
         public Peer(WebRtcClient client, String other) {
@@ -533,5 +551,82 @@ public class WebRtcService extends Service {
     WebRtcClient getClient() {
         return client;
     }
+
+//    /**
+//     * 获取ip地址
+//     *
+//     * @return
+//     */
+//    public static String getHostIP() {
+//
+//        String hostIp = null;
+//        try {
+//            Enumeration nis = NetworkInterface.getNetworkInterfaces();
+//            InetAddress ia = null;
+//            while (nis.hasMoreElements()) {
+//                NetworkInterface ni = (NetworkInterface) nis.nextElement();
+//                Enumeration<InetAddress> ias = ni.getInetAddresses();
+//                while (ias.hasMoreElements()) {
+//                    ia = ias.nextElement();
+//                    if (ia instanceof Inet6Address) {
+//                        continue;// skip ipv6
+//                    }
+//                    String ip = ia.getHostAddress();
+//                    if (!"127.0.0.1".equals(ip)) {
+//                        hostIp = ia.getHostAddress();
+//                        break;
+//                    }
+//                }
+//            }
+//        } catch (SocketException e) {
+//            Log.i("yao", "SocketException");
+//            e.printStackTrace();
+//        }
+//        return hostIp;
+//
+//    }
+//
+//    /**
+//     * 获取IP地址
+//     *
+//     * @return
+//     */
+//    public static String GetNetIp() {
+//        URL infoUrl = null;
+//        InputStream inStream = null;
+//        String line = "";
+//        try {
+//            infoUrl = new URL("http://pv.sohu.com/cityjson?ie=utf-8");
+//            URLConnection connection = infoUrl.openConnection();
+//            HttpURLConnection httpConnection = (HttpURLConnection) connection;
+//            int responseCode = httpConnection.getResponseCode();
+//            if (responseCode == HttpURLConnection.HTTP_OK) {
+//                inStream = httpConnection.getInputStream();
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "utf-8"));
+//                StringBuilder strber = new StringBuilder();
+//                while ((line = reader.readLine()) != null)
+//                    strber.append(line + "\n");
+//                inStream.close();
+//                // 从反馈的结果中提取出IP地址
+//                int start = strber.indexOf("{");
+//                int end = strber.indexOf("}");
+//                String json = strber.substring(start, end + 1);
+//                if (json != null) {
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(json);
+//                        line = jsonObject.optString("cip");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return line;
+//            }
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return line;
+//    }
 
 }
