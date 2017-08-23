@@ -66,7 +66,7 @@ class WebRtcClient {
     };
     private PeerConnectionFactory factory;
     private PeerConnectionParameters pcParams;
-    private PeerConnection peerConnection;
+    //    private PeerConnection peerConnection;
     private MediaStream localMS;
     private VideoCapturer videoCapturer;
     private VideoSource videoSource;
@@ -125,10 +125,10 @@ class WebRtcClient {
      * Call this method in Activity.onDestroy()
      */
     public void close() {
-        if (peerConnection != null) {
-            peerConnection.dispose();
-            peerConnection = null;
-        }
+//        if (peerConnection != null) {
+//            peerConnection.dispose();
+//            peerConnection = null;
+//        }
         Log.d(TAG, "Closing audio source.");
         if (audioSource != null) {
             audioSource.dispose();
@@ -211,7 +211,7 @@ class WebRtcClient {
         rtcConfig.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY;
         // Use ECDSA encryption.
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA;
-        return peerConnection = factory.createPeerConnection(rtcConfig, WebRtcService.getInstance().getPcConstraints(), observer);
+        return factory.createPeerConnection(rtcConfig, WebRtcService.getInstance().getPcConstraints(), observer);
     }
 
     public MediaStream getLocalMS() {
