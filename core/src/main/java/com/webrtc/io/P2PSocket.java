@@ -2,6 +2,9 @@ package com.webrtc.io;
 
 import org.json.JSONObject;
 
+/*
+http://www.cnblogs.com/fangkm/p/4364553.html
+ */
 public interface P2PSocket {
 
     String INIT = "init";
