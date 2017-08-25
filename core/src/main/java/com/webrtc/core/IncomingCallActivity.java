@@ -64,10 +64,10 @@ public class IncomingCallActivity extends AppCompatActivity {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
         }
-        finish();
         startCallWithFlag(false);
         JSONObject message = new JSONObject();
         WebRtcService.getInstance().emit(P2PSocket.ACCEPT_CALL, message);
+        finish();
     }
 
     /**
@@ -86,8 +86,8 @@ public class IncomingCallActivity extends AppCompatActivity {
     }
 
     public void onAcceptCall() {
-        finish();
         startCallWithFlag(true);
+        finish();
     }
 
     @Override
