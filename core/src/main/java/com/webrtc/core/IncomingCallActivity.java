@@ -43,9 +43,11 @@ public class IncomingCallActivity extends AppCompatActivity {
             } else {
                 mMediaPlayer = MediaPlayer.create(this, INRING);
             }
-            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setLooping(true);
-            mMediaPlayer.start();
+            if (mMediaPlayer != null) {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.start();
+            }
         }
 
 //        vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
