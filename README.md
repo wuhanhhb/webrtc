@@ -31,7 +31,7 @@ Add jcenter library:
     WebRtcService.addIceService(new PeerConnection.IceServer("stun:stun.schlund.de"));
     WebRtcService.addIceService(new PeerConnection.IceServer("turn:numb.viagenie.ca", "muazkh", "webrtc@live.com"));
 ```
-  3. when you receive data from other,you should process it for webrtc,is very simple:   
+  3. when you receive data from other,you should process it for webrtc:   
 ```java
     //get type & payload 
     final String type=xxxxx;
