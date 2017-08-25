@@ -4,10 +4,11 @@ a lib for android webrtc,only use for p2p,you maybe could change it for metting.
 https://jitpack.io/#wuhanhhb/webrtc/-SNAPSHOT
 
 # how to use it
-First,you should had a service(such as signaling service or IM service) for exchange data before connected, and had STUN or TURN servers for ICE. 
-add library:
+First,you should had a service(such as signaling service or IM service) for exchange data before connected, and had STUN or TURN servers for ICE.   
+Add jcenter library:   
+```java
   compile 'com.follow:webrtc-android:1.1.4'   
-
+```
   1. start service for webrtc:    
 ```java
     //start service first.
@@ -40,7 +41,7 @@ add library:
     //call
     p2PSocket.call(type, payload);
 ```
-  4. how to start ? it's very simple:   
+  4. how to start call ? it's very easy:   
 ```java
     //start call
     WebRtcService.startClient(getApplicationContext(), yourselfName, otherName, 0);
