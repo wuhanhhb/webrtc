@@ -52,7 +52,7 @@ public class CallActivity extends Activity implements WebRtcService.RtcListener 
                         | LayoutParams.FLAG_TURN_SCREEN_ON);
         setContentView(R.layout.main);
 
-        vsv = findViewById(R.id.glview_call);
+        vsv = (GLSurfaceView) findViewById(R.id.glview_call);
         vsv.setPreserveEGLContextOnPause(true);
         vsv.setKeepScreenOn(true);
         VideoRendererGui.setView(vsv, new Runnable() {

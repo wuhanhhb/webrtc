@@ -20,7 +20,7 @@ import static com.webrtc.core.WebRtcClient.TAG;
 public class Util {
 
     /**
-     * @See(https://stackoverflow.com/questions/20068944/webrtc-stun-stun-l-google-com19302) <br/>
+     * See(https://stackoverflow.com/questions/20068944/webrtc-stun-stun-l-google-com19302)
      * {url:'stun:stun01.sipphone.com'},
      * {url:'stun:stun.ekiga.net'},
      * {url:'stun:stun.fwdnet.net'},
