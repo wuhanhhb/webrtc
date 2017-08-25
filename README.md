@@ -13,9 +13,7 @@ Add jcenter library:
 ```java
     //start service first.
     WebRtcService.startServie(this);
-```
-    you can through next to juge the service is running:    
-```java
+    //is running for WebRtcService?
     WebRtcService.isRunning();
 ```
   2. you should implement SimpleP2PSocket use for exchange data    
