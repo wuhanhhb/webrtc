@@ -2,6 +2,8 @@ package com.webrtc.core;
 
 import android.util.Log;
 
+import org.webrtc.PeerConnection;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,6 +18,59 @@ import static com.webrtc.core.WebRtcClient.TAG;
  */
 
 public class Util {
+
+    /**
+     * @See(https://stackoverflow.com/questions/20068944/webrtc-stun-stun-l-google-com19302) <br/>
+     * {url:'stun:stun01.sipphone.com'},
+     * {url:'stun:stun.ekiga.net'},
+     * {url:'stun:stun.fwdnet.net'},
+     * {url:'stun:stun.ideasip.com'},
+     * {url:'stun:stun.iptel.org'},
+     * {url:'stun:stun.rixtelecom.se'},
+     * {url:'stun:stun.schlund.de'},
+     * {url:'stun:stun.l.google.com:19302'},
+     * {url:'stun:stun1.l.google.com:19302'},
+     * {url:'stun:stun2.l.google.com:19302'},
+     * {url:'stun:stun3.l.google.com:19302'},
+     * {url:'stun:stun4.l.google.com:19302'},
+     * {url:'stun:stunserver.org'},
+     * {url:'stun:stun.softjoys.com'},
+     * {url:'stun:stun.voiparound.com'},
+     * {url:'stun:stun.voipbuster.com'},
+     * {url:'stun:stun.voipstunt.com'},
+     * {url:'stun:stun.voxgratia.org'},
+     * {url:'stun:stun.xten.com'},
+     * {
+     * url: 'turn:numb.viagenie.ca',
+     * credential: 'muazkh',
+     * username: 'webrtc@live.com'
+     * },
+     * {
+     * url: 'turn:192.158.29.39:3478?transport=udp',
+     * credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+     * username: '28224511:1379330808'
+     * },
+     * {
+     * url: 'turn:192.158.29.39:3478?transport=tcp',
+     * credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+     * username: '28224511:1379330808'
+     * }
+     */
+    public static void configDefaultIceServers() {
+        //public stun service
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.l.google.com:19302"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stunserver.org"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.softjoys.com"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.voiparound.com"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.voipbuster.com"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.voipstunt.com"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.voxgratia.org"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("stun:stun.xten.com"));
+        //public turn service
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("turn:numb.viagenie.ca", "muazkh", "webrtc@live.com"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("turn:192.158.29.39:3478?transport=udp", "JZEOEt2V3Qb0y27GRntt2u2PAYA=", "28224511:1379330808"));
+        WebRtcService.getInstance().getIceServers().add(new PeerConnection.IceServer("turn:192.158.29.39:3478?transport=tcp", "JZEOEt2V3Qb0y27GRntt2u2PAYA=", "28224511:1379330808"));
+    }
 
     /**
      * Returns the line number containing "m=audio|video", or -1 if no such line exists.
